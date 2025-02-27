@@ -1,4 +1,6 @@
 # ProjectXiang
+ProjectXiang is the start of an API tool using FastAPI and Uvicorn
+
 
 Setup:
 
@@ -14,6 +16,6 @@ Setup:
 4. Run the FastAPI Application:    
 ```uvicorn main:app --reload```
 
-5. Access the API Documentation at    
+5. Access the API Documentation at:    
 -Swagger UI: http://127.0.0.1:8000/docs    
 -ReDoc: http://127.0.0.1:8000/redoc
