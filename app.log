@@ -1,0 +1,21 @@
+2025-02-27 14:55:37,910 - my_module - INFO - /items/{24}
+2025-02-27 14:55:37,991 - my_module - INFO - /items/{24}
+2025-02-27 14:55:39,398 - my_module - INFO - /items/{24}
+2025-02-27 14:57:36,683 - my_module - INFO - / reached
+2025-02-27 14:57:36,683 - my_module - DEBUG - hello
+2025-02-27 14:57:36,683 - my_module - ERROR - err
+2025-02-27 15:06:41,543 - my_module - INFO - / reached [main.py:13]
+2025-02-27 15:06:41,543 - my_module - DEBUG - hello [main.py:14]
+2025-02-27 15:06:41,543 - my_module - ERROR - err [main.py:15]
+2025-02-27 15:06:52,840 - my_module - INFO - / reached [main.py:13]
+2025-02-27 15:06:52,840 - my_module - DEBUG - hello [main.py:14]
+2025-02-27 15:06:52,840 - my_module - ERROR - err [main.py:15]
+2025-02-27 15:06:56,104 - my_module - INFO - / reached [main.py:13]
+2025-02-27 15:06:56,104 - my_module - DEBUG - hello [main.py:14]
+2025-02-27 15:06:56,104 - my_module - ERROR - err [main.py:15]
+2025-02-27 15:09:39,686 - INFO - [main.py:13] - / reached
+2025-02-27 15:09:39,686 - DEBUG - [main.py:14] - hello
+2025-02-27 15:09:39,686 - ERROR - [main.py:15] - err
+2025-02-27 15:09:54,372 - INFO - [main.py:13] - / reached
+2025-02-27 15:09:54,372 - DEBUG - [main.py:14] - hello
+2025-02-27 15:09:54,372 - ERROR - [main.py:15] - err
