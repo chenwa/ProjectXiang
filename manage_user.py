@@ -1,7 +1,11 @@
+import logging
 from utils.logger import setup_logging
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
 from db_session import Session, User
+
+setup_logging()
+logger = logging.getLogger('my_module')
 
 def get_user_by_id(user_id: int):
     """
@@ -43,11 +47,39 @@ def add_user(name: str, email: str):
         new_user = User(name=name, email=email)
         session.add(new_user)
         session.commit()
-        print(f"User created with ID {new_user.id}")
+        logger.info(f"User created with ID {new_user.id}")
         return new_user
     except Exception as e:
         session.rollback()  # Rollback any changes if error occurs.
-        print("Error creating user:", e)
+        logger.error("Error creating user:", e)
+    finally:
+        session.close()
+
+def delete_user_by_email(email: str):
+    """
+    Deletes a user from the database based on their email.
+    
+    Parameters:
+        email (str): The email of the user to delete.
+    
+    Returns:
+        bool: True if the user was deleted, False if no user was found.
+    """
+    session = Session()
+    try:
+        user = session.query(User).filter_by(email=email).first()
+        if user:
+            session.delete(user)
+            session.commit()
+            logger.info(f"User with email {email} has been deleted.")
+            return True
+        else:
+            logger.info(f"No user found with email {email}.")
+            return False
+    except Exception as e:
+        session.rollback()  # Rollback if an error occurs.
+        logger.error("Error deleting user:", e)
+        return False
     finally:
         session.close()
 

@@ -1072,3 +1072,102 @@ FROM users
 WHERE users.id = %(pk_1)s
 2025-04-20 16:53:07,184 - INFO - [base.py:1843] - [generated in 0.00018s] {'pk_1': 6}
 2025-04-20 16:53:07,184 - INFO - [base.py:2702] - ROLLBACK
+2025-04-21 15:46:47,700 - INFO - [main.py:31] - adding user: {name}, {email}
+2025-04-21 15:46:47,711 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-21 15:46:47,711 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 15:46:47,712 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-21 15:46:47,713 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 15:46:47,713 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-21 15:46:47,713 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 15:46:47,714 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-21 15:46:47,715 - INFO - [base.py:1843] - INSERT INTO users (name, email) VALUES (%(name)s, %(email)s)
+2025-04-21 15:46:47,715 - INFO - [base.py:1843] - [generated in 0.00017s] {'name': 'tim', 'email': 'horton@gmail.com'}
+2025-04-21 15:46:47,719 - INFO - [base.py:2705] - COMMIT
+2025-04-21 15:46:47,721 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-21 15:46:47,723 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.id = %(pk_1)s
+2025-04-21 15:46:47,723 - INFO - [base.py:1843] - [generated in 0.00018s] {'pk_1': 7}
+2025-04-21 15:46:47,724 - INFO - [base.py:2702] - ROLLBACK
+2025-04-21 16:11:39,352 - INFO - [main.py:36] - deleting user with email: {email}
+2025-04-21 16:11:39,365 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-21 16:11:39,365 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:11:39,366 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-21 16:11:39,366 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:11:39,367 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-21 16:11:39,367 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:11:39,368 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-21 16:11:39,370 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-21 16:11:39,370 - INFO - [base.py:1843] - [generated in 0.00018s] {'email_1': 'poop', 'param_1': 1}
+2025-04-21 16:11:39,371 - INFO - [base.py:2702] - ROLLBACK
+2025-04-21 16:12:14,771 - INFO - [main.py:36] - deleting user with email: {email}
+2025-04-21 16:12:14,779 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-21 16:12:14,779 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:12:14,780 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-21 16:12:14,780 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:12:14,780 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-21 16:12:14,780 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:12:14,781 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-21 16:12:14,783 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-21 16:12:14,783 - INFO - [base.py:1843] - [generated in 0.00019s] {'email_1': 'poop', 'param_1': 1}
+2025-04-21 16:12:14,784 - INFO - [base.py:2702] - ROLLBACK
+2025-04-21 16:13:20,719 - INFO - [main.py:36] - deleting user with email: {email}
+2025-04-21 16:13:20,726 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-21 16:13:20,726 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:13:20,727 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-21 16:13:20,727 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:13:20,727 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-21 16:13:20,728 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:13:20,728 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-21 16:13:20,730 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-21 16:13:20,730 - INFO - [base.py:1843] - [generated in 0.00018s] {'email_1': 'poop', 'param_1': 1}
+2025-04-21 16:13:20,731 - INFO - [manage_user.py:77] - No user found with email poop.
+2025-04-21 16:13:20,731 - INFO - [base.py:2702] - ROLLBACK
+2025-04-21 16:14:02,248 - INFO - [main.py:36] - deleting user with email: {email}
+2025-04-21 16:14:02,256 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-21 16:14:02,256 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:14:02,257 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-21 16:14:02,257 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:14:02,257 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-21 16:14:02,257 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:14:02,258 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-21 16:14:02,260 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-21 16:14:02,260 - INFO - [base.py:1843] - [generated in 0.00018s] {'email_1': 'poop', 'param_1': 1}
+2025-04-21 16:14:02,261 - INFO - [manage_user.py:77] - No user found with email poop.
+2025-04-21 16:14:02,261 - INFO - [base.py:2702] - ROLLBACK
+2025-04-21 16:14:22,870 - INFO - [main.py:26] - id: {id}
+2025-04-21 16:14:22,871 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-21 16:14:22,872 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.id = %(pk_1)s
+2025-04-21 16:14:22,873 - INFO - [base.py:1843] - [generated in 0.00019s] {'pk_1': 3}
+2025-04-21 16:14:22,889 - INFO - [base.py:2702] - ROLLBACK
+2025-04-21 16:15:26,843 - INFO - [main.py:36] - deleting user with email: {email}
+2025-04-21 16:15:26,849 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-21 16:15:26,850 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:15:26,850 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-21 16:15:26,850 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:15:26,852 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-21 16:15:26,852 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:15:26,852 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-21 16:15:26,855 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-21 16:15:26,855 - INFO - [base.py:1843] - [generated in 0.00019s] {'email_1': 'x.yahoo.com', 'param_1': 1}
+2025-04-21 16:15:26,857 - INFO - [base.py:1843] - DELETE FROM users WHERE users.id = %(id)s
+2025-04-21 16:15:26,857 - INFO - [base.py:1843] - [generated in 0.00020s] {'id': 5}
+2025-04-21 16:15:26,859 - INFO - [base.py:2705] - COMMIT
+2025-04-21 16:15:26,861 - INFO - [manage_user.py:74] - User with email x.yahoo.com has been deleted.
