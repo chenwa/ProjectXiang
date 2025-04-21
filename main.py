@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import logging
 from utils.logger import setup_logging 
+from manage_user import get_user_by_id, add_user
 
 setup_logging()
 logger = logging.getLogger('my_module')
@@ -20,3 +21,12 @@ def read_item(item_id: int, q: str = None):
     logger.info("/items/{" + str(item_id) + "}")
     return {"item_id": item_id, "q": q}
 
+@app.get("/users/{user_id}")
+def read_user(id: int):
+    logger.info("id: {id}")
+    return {"user": get_user_by_id(id)}
+
+@app.post("/users_create")
+def create_user(name: str, email: str):
+    logger.info("adding user: {name}, {email}")
+    return {"user": add_user(name, email)}
