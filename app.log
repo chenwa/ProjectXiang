@@ -1171,3 +1171,29 @@ WHERE users.email = %(email_1)s
 2025-04-21 16:15:26,857 - INFO - [base.py:1843] - [generated in 0.00020s] {'id': 5}
 2025-04-21 16:15:26,859 - INFO - [base.py:2705] - COMMIT
 2025-04-21 16:15:26,861 - INFO - [manage_user.py:74] - User with email x.yahoo.com has been deleted.
+2025-04-21 16:51:50,256 - INFO - [main.py:41] - updating username of {email} to {new_name}
+2025-04-21 16:51:50,322 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-21 16:51:50,323 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:51:50,324 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-21 16:51:50,343 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:51:50,344 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-21 16:51:50,363 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-21 16:51:50,372 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-21 16:51:50,386 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-21 16:51:50,405 - INFO - [base.py:1843] - [generated in 0.01930s] {'email_1': 'yahoo.com', 'param_1': 1}
+2025-04-21 16:51:50,423 - INFO - [base.py:1843] - UPDATE users SET name=%(name)s WHERE users.id = %(users_id)s
+2025-04-21 16:51:50,423 - INFO - [base.py:1843] - [generated in 0.00019s] {'name': 'hong', 'users_id': 3}
+2025-04-21 16:51:50,447 - INFO - [base.py:2705] - COMMIT
+2025-04-21 16:51:50,722 - INFO - [manage_user.py:103] - User with email yahoo.com has been updated to name hong.
+2025-04-21 16:52:11,146 - INFO - [main.py:41] - updating username of {email} to {new_name}
+2025-04-21 16:52:11,147 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-21 16:52:11,147 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-21 16:52:11,147 - INFO - [base.py:1843] - [cached since 20.76s ago] {'email_1': 'yahoo.coms', 'param_1': 1}
+2025-04-21 16:52:11,148 - INFO - [manage_user.py:106] - No user found with email yahoo.coms.
+2025-04-21 16:52:11,148 - INFO - [base.py:2702] - ROLLBACK

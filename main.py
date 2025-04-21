@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import logging
 from utils.logger import setup_logging 
-from manage_user import get_user_by_id, add_user, delete_user_by_email
+from manage_user import get_user_by_id, add_user, delete_user_by_email, update_user_name_by_email
 
 setup_logging()
 logger = logging.getLogger('my_module')
@@ -35,3 +35,8 @@ def create_user(name: str, email: str):
 def delete_user(email: str):
     logger.info("deleting user with email: {email}")
     return {"success": delete_user_by_email(email)}
+
+@app.post("/user_updat")
+def update_user(email: str, new_name: str):
+    logger.info("updating username of {email} to {new_name}")
+    return {"success": update_user_name_by_email(email, new_name)} 

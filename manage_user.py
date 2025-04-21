@@ -83,3 +83,34 @@ def delete_user_by_email(email: str):
     finally:
         session.close()
 
+def update_user_name_by_email(email: str, new_name: str):
+    """
+    Updates a user's name in the database based on their email.
+
+    Parameters:
+        email (str): The email of the user to update.
+        new_name (str): The new name to assign.
+
+    Returns:
+        bool: True if the update was successful, False if no user was found.
+    """
+    session = Session()
+    try:
+        user = session.query(User).filter_by(email=email).first()
+        if user:
+            user.name = new_name  # Update the name
+            session.commit()
+            logger.info(f"User with email {email} has been updated to name {new_name}.")
+            return True
+        else:
+            logger.info(f"No user found with email {email}.")
+            return False
+    except Exception as e:
+        session.rollback()  # Rollback if an error occurs
+        logger.error("Error updating user:", e)
+        return False
+    finally:
+        session.close()
+
+
+
