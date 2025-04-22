@@ -112,5 +112,34 @@ def update_user_name_by_email(email: str, new_name: str):
     finally:
         session.close()
 
+# Function to Search Users by Name
+def search_users_by_name(query: str):
+    """
+    Searches for users whose names include the given query (case-insensitive).
 
+    Parameters:
+        query (str): The substring to search for in the user's name.
+
+    Returns:
+        list[User]: A list of matching User objects.
+    """
+    session = Session()
+    try:
+        # Use the `ilike` operator for a case-insensitive search
+        matching_users = session.query(User).filter(User.name.ilike(f"%{query}%")).all()
+        
+        # Logging or debugging output
+        if matching_users:
+            logger.info(f"Found {len(matching_users)} users matching '{query}':")
+            for user in matching_users:
+                logger.info(f"ID: {user.id}, Name: {user.name}, Email: {user.email}")
+        else:
+            logger.info(f"No users found matching '{query}'.")
+            
+        return matching_users
+    except Exception as e:
+        logger.error("Error during search:", e)
+        return []
+    finally:
+        session.close()
 

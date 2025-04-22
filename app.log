@@ -1197,3 +1197,105 @@ WHERE users.email = %(email_1)s
 2025-04-21 16:52:11,147 - INFO - [base.py:1843] - [cached since 20.76s ago] {'email_1': 'yahoo.coms', 'param_1': 1}
 2025-04-21 16:52:11,148 - INFO - [manage_user.py:106] - No user found with email yahoo.coms.
 2025-04-21 16:52:11,148 - INFO - [base.py:2702] - ROLLBACK
+2025-04-22 13:16:27,481 - INFO - [main.py:21] - /items/{3}
+2025-04-22 13:17:05,145 - INFO - [main.py:26] - id: {id}
+2025-04-22 13:17:05,160 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-22 13:17:05,160 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-22 13:17:05,161 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-22 13:17:05,161 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-22 13:17:05,162 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-22 13:17:05,162 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-22 13:17:05,164 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-22 13:17:05,166 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.id = %(pk_1)s
+2025-04-22 13:17:05,166 - INFO - [base.py:1843] - [generated in 0.00022s] {'pk_1': 3}
+2025-04-22 13:17:05,168 - INFO - [base.py:2702] - ROLLBACK
+2025-04-22 13:17:32,270 - INFO - [main.py:31] - adding user: {name}, {email}
+2025-04-22 13:17:32,271 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-22 13:17:32,273 - INFO - [base.py:1843] - INSERT INTO users (name, email) VALUES (%(name)s, %(email)s)
+2025-04-22 13:17:32,273 - INFO - [base.py:1843] - [generated in 0.00023s] {'name': 'vina', 'email': 'vina@iwarren.com'}
+2025-04-22 13:17:32,277 - INFO - [base.py:2705] - COMMIT
+2025-04-22 13:17:32,280 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-22 13:17:32,281 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.id = %(pk_1)s
+2025-04-22 13:17:32,281 - INFO - [base.py:1843] - [generated in 0.00017s] {'pk_1': 8}
+2025-04-22 13:17:32,282 - INFO - [manage_user.py:50] - User created with ID 8
+2025-04-22 13:17:32,282 - INFO - [base.py:2702] - ROLLBACK
+2025-04-22 13:17:51,448 - INFO - [main.py:31] - adding user: {name}, {email}
+2025-04-22 13:17:51,449 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-22 13:17:51,449 - INFO - [base.py:1843] - INSERT INTO users (name, email) VALUES (%(name)s, %(email)s)
+2025-04-22 13:17:51,449 - INFO - [base.py:1843] - [cached since 19.18s ago] {'name': 'vina', 'email': 'vina@iwarren.com'}
+2025-04-22 13:17:51,460 - INFO - [base.py:2702] - ROLLBACK
+2025-04-22 13:18:57,223 - INFO - [main.py:41] - updating username of {email} to {new_name}
+2025-04-22 13:18:57,224 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-22 13:18:57,226 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-22 13:18:57,227 - INFO - [base.py:1843] - [generated in 0.00194s] {'email_1': 'vina@iwarren.com', 'param_1': 1}
+2025-04-22 13:18:57,231 - INFO - [base.py:1843] - UPDATE users SET name=%(name)s WHERE users.id = %(users_id)s
+2025-04-22 13:18:57,231 - INFO - [base.py:1843] - [generated in 0.00023s] {'name': 'Elvina', 'users_id': 8}
+2025-04-22 13:18:57,232 - INFO - [base.py:2705] - COMMIT
+2025-04-22 13:18:57,233 - INFO - [manage_user.py:103] - User with email vina@iwarren.com has been updated to name Elvina.
+2025-04-22 13:21:53,826 - INFO - [main.py:26] - id: {id}
+2025-04-22 13:21:53,827 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-22 13:21:53,827 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.id = %(pk_1)s
+2025-04-22 13:21:53,827 - INFO - [base.py:1843] - [cached since 288.7s ago] {'pk_1': 8}
+2025-04-22 13:21:53,829 - INFO - [base.py:2702] - ROLLBACK
+2025-04-22 13:23:31,864 - INFO - [main.py:36] - deleting user with email: {email}
+2025-04-22 13:23:31,866 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-22 13:23:31,866 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-22 13:23:31,866 - INFO - [base.py:1843] - [cached since 274.6s ago] {'email_1': 'vina@iwarren.com', 'param_1': 1}
+2025-04-22 13:23:31,869 - INFO - [base.py:1843] - DELETE FROM users WHERE users.id = %(id)s
+2025-04-22 13:23:31,869 - INFO - [base.py:1843] - [generated in 0.00035s] {'id': 8}
+2025-04-22 13:23:31,870 - INFO - [base.py:2705] - COMMIT
+2025-04-22 13:23:31,873 - INFO - [manage_user.py:74] - User with email vina@iwarren.com has been deleted.
+2025-04-22 13:56:14,074 - INFO - [main.py:51] - finding users with names that contain {query}
+2025-04-22 13:56:14,084 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-22 13:56:14,085 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-22 13:56:14,085 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-22 13:56:14,085 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-22 13:56:14,086 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-22 13:56:14,086 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-22 13:56:14,086 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-22 13:56:14,088 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE lower(users.name) LIKE lower(%(name_1)s)
+2025-04-22 13:56:14,088 - INFO - [base.py:1843] - [generated in 0.00014s] {'name_1': '%a%'}
+2025-04-22 13:56:14,100 - INFO - [manage_user.py:133] - Found 1 users matching 'a':
+2025-04-22 13:56:14,100 - INFO - [manage_user.py:135] - ID: 6, Name: xiang, Email: comicator.com
+2025-04-22 13:56:14,101 - INFO - [base.py:2702] - ROLLBACK
+2025-04-22 13:56:59,180 - INFO - [main.py:36] - adding user: {name}, {email}
+2025-04-22 13:56:59,180 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-22 13:56:59,182 - INFO - [base.py:1843] - INSERT INTO users (name, email) VALUES (%(name)s, %(email)s)
+2025-04-22 13:56:59,182 - INFO - [base.py:1843] - [generated in 0.00029s] {'name': 'warren', 'email': 'warren@iwarren.com'}
+2025-04-22 13:56:59,183 - INFO - [base.py:2705] - COMMIT
+2025-04-22 13:56:59,187 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-22 13:56:59,188 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.id = %(pk_1)s
+2025-04-22 13:56:59,188 - INFO - [base.py:1843] - [generated in 0.00025s] {'pk_1': 10}
+2025-04-22 13:56:59,189 - INFO - [manage_user.py:50] - User created with ID 10
+2025-04-22 13:56:59,189 - INFO - [base.py:2702] - ROLLBACK
+2025-04-22 13:57:03,932 - INFO - [main.py:36] - adding user: {name}, {email}
+2025-04-22 13:57:03,932 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-22 13:57:03,932 - INFO - [base.py:1843] - INSERT INTO users (name, email) VALUES (%(name)s, %(email)s)
+2025-04-22 13:57:03,932 - INFO - [base.py:1843] - [cached since 4.751s ago] {'name': 'warren', 'email': 'warren@iwarren.com'}
+2025-04-22 13:57:03,934 - INFO - [base.py:2702] - ROLLBACK
+2025-04-22 13:57:16,302 - INFO - [main.py:51] - finding users with names that contain {query}
+2025-04-22 13:57:16,302 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-22 13:57:16,303 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE lower(users.name) LIKE lower(%(name_1)s)
+2025-04-22 13:57:16,303 - INFO - [base.py:1843] - [cached since 62.21s ago] {'name_1': '%a%'}
+2025-04-22 13:57:16,306 - INFO - [manage_user.py:133] - Found 2 users matching 'a':
+2025-04-22 13:57:16,307 - INFO - [manage_user.py:135] - ID: 6, Name: xiang, Email: comicator.com
+2025-04-22 13:57:16,307 - INFO - [manage_user.py:135] - ID: 10, Name: warren, Email: warren@iwarren.com
+2025-04-22 13:57:16,307 - INFO - [base.py:2702] - ROLLBACK
