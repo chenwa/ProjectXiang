@@ -23,32 +23,32 @@ def read_root():
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: str = None):
-    logger.info("/items/{" + str(item_id) + "}")
+    logger.info(f"/items/{item_id}")
     return {"item_id": item_id, "q": q}
 
 @app.get("/users/{user_id}")
 def read_user(id: int):
-    logger.info("id: {id}")
+    logger.info(f"id: {id}")
     return {"user": get_user_by_id(id)}
 
 @app.post("/users_create/{name}/{email}")
 def create_user(name: str, email: str):
-    logger.info("adding user: {name}, {email}")
+    logger.info(f"adding user: {name}, {email}")
     return {"user": add_user(name, email)}
 
 @app.delete("/user_delete/{email}")
 def delete_user(email: str):
-    logger.info("deleting user with email: {email}")
+    logger.info(f"deleting user with email: {email}")
     return {"success": delete_user_by_email(email)}
 
 @app.post("/user_update/{email}/{new_name}")
 def update_user(email: str, new_name: str):
-    logger.info("updating username of {email} to {new_name}")
+    logger.info(f"updating username of {email} to {new_name}")
     return {"success": update_user_name_by_email(email, new_name)} 
 
 @app.get("/search_users_by_name/{query}")
 def find_users_by_name(query: str):
-    logger.info("finding users with names that contain {query}")
+    logger.info(f"finding users with names that contain {query}")
     return {"users": search_users_by_name(query)} 
 
 

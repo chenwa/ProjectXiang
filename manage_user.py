@@ -2,7 +2,7 @@ import logging
 from utils.logger import setup_logging
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
-from db_session import Session, User
+from db.session_objects import Session, User
 
 setup_logging()
 logger = logging.getLogger('my_module')
