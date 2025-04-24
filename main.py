@@ -3,6 +3,7 @@ import logging
 from utils.logger import setup_logging 
 from manage_user import (
     add_user, 
+    authenticate_user_password,
     get_user_by_id, 
     delete_user_by_email,
     search_users_by_name,
@@ -51,7 +52,10 @@ def find_users_by_name(query: str):
     logger.info(f"finding users with names that contain {query}")
     return {"users": search_users_by_name(query)} 
 
-
+@app.get("/users/{email}/{password}")
+def authenticate_user(email: str, password: str):
+    logger.info(f"Validating user: {email}")
+    return {"success": authenticate_user_password(email, password)}
 
 
 

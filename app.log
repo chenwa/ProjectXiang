@@ -1336,3 +1336,42 @@ WHERE users.id = %(pk_1)s
 2025-04-23 18:46:29,193 - INFO - [base.py:1843] - [generated in 0.00014s] {'pk_1': 13}
 2025-04-23 18:46:29,194 - INFO - [manage_user.py:59] - User created with ID 13
 2025-04-23 18:46:29,194 - INFO - [base.py:2702] - ROLLBACK
+2025-04-23 18:59:04,548 - INFO - [main.py:57] - Validating user: test
+2025-04-23 18:59:04,570 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-23 18:59:04,570 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-23 18:59:04,571 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-23 18:59:04,571 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-23 18:59:04,572 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-23 18:59:04,572 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-23 18:59:04,572 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-23 18:59:04,575 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.encrypted_password AS users_encrypted_password 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-23 18:59:04,576 - INFO - [base.py:1843] - [generated in 0.00029s] {'email_1': 'test', 'param_1': 1}
+2025-04-23 18:59:04,577 - INFO - [manage_user.py:85] - No user found with email test.
+2025-04-23 18:59:04,577 - INFO - [base.py:2702] - ROLLBACK
+2025-04-23 18:59:35,804 - INFO - [main.py:57] - Validating user: test.com
+2025-04-23 18:59:35,805 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-23 18:59:35,806 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.encrypted_password AS users_encrypted_password 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-23 18:59:35,806 - INFO - [base.py:1843] - [cached since 31.23s ago] {'email_1': 'test.com', 'param_1': 1}
+2025-04-23 18:59:36,054 - INFO - [manage_user.py:91] - Authentication successful!
+2025-04-23 18:59:36,054 - INFO - [base.py:2702] - ROLLBACK
+2025-04-23 19:00:55,244 - INFO - [main.py:57] - Validating user: test.com
+2025-04-23 19:00:55,272 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-23 19:00:55,272 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-23 19:00:55,273 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-23 19:00:55,273 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-23 19:00:55,274 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-23 19:00:55,274 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-23 19:00:55,274 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-23 19:00:55,277 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.encrypted_password AS users_encrypted_password 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-23 19:00:55,277 - INFO - [base.py:1843] - [generated in 0.00019s] {'email_1': 'test.com', 'param_1': 1}
+2025-04-23 19:00:55,495 - INFO - [manage_user.py:91] - Authentication successful!
+2025-04-23 19:00:55,495 - INFO - [base.py:2702] - ROLLBACK

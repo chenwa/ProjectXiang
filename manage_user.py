@@ -65,6 +65,40 @@ def add_user(name: str, email: str, password: str):
     finally:
         session.close()
 
+def authenticate_user_password(email: str, password: str):
+    """
+    Authenticates a user by checking if the provided password matches 
+    the stored hashed password for the given email.
+
+    Parameters:
+        email (str): The email of the user.
+        password (str): The plaintext password provided by the user.
+
+    Returns:
+        bool: True if authentication is successful, False otherwise.
+    """
+    session = Session()
+    try:
+        # Retrieve the user by email
+        user = session.query(User).filter_by(email=email).first()
+        if not user:
+            logger.info(f"No user found with email {email}.")
+            return False
+
+        # Compare the provided password with the stored hashed password
+        stored_hashed_password = user.encrypted_password
+        if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password.encode('utf-8')):
+            logger.info("Authentication successful!")
+            return True
+        else:
+            logger.info("Authentication failed: Incorrect password.")
+            return False
+    except Exception as e:
+        logger.error("Error during authentication:", e)
+        return False
+    finally:
+        session.close()
+
 def delete_user_by_email(email: str):
     """
     Deletes a user from the database based on their email.
