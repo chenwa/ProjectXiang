@@ -1299,3 +1299,40 @@ WHERE lower(users.name) LIKE lower(%(name_1)s)
 2025-04-22 13:57:16,307 - INFO - [manage_user.py:135] - ID: 6, Name: xiang, Email: comicator.com
 2025-04-22 13:57:16,307 - INFO - [manage_user.py:135] - ID: 10, Name: warren, Email: warren@iwarren.com
 2025-04-22 13:57:16,307 - INFO - [base.py:2702] - ROLLBACK
+2025-04-23 18:26:55,406 - INFO - [main.py:36] - adding user: hello, world
+2025-04-23 18:31:59,313 - INFO - [main.py:36] - adding user: hello, world
+2025-04-23 18:31:59,561 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-23 18:31:59,561 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-23 18:31:59,562 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-23 18:31:59,562 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-23 18:31:59,562 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-23 18:31:59,562 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-23 18:31:59,563 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-23 18:31:59,564 - INFO - [base.py:1843] - INSERT INTO users (name, email) VALUES (%(name)s, %(email)s)
+2025-04-23 18:31:59,564 - INFO - [base.py:1843] - [generated in 0.00015s] {'name': 'hello', 'email': 'world'}
+2025-04-23 18:31:59,565 - INFO - [base.py:2705] - COMMIT
+2025-04-23 18:31:59,568 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-23 18:31:59,570 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email 
+FROM users 
+WHERE users.id = %(pk_1)s
+2025-04-23 18:31:59,570 - INFO - [base.py:1843] - [generated in 0.00021s] {'pk_1': 12}
+2025-04-23 18:31:59,585 - INFO - [manage_user.py:59] - User created with ID 12
+2025-04-23 18:31:59,585 - INFO - [base.py:2702] - ROLLBACK
+2025-04-23 18:46:28,909 - INFO - [main.py:36] - adding user: test, test.com
+2025-04-23 18:46:29,166 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-23 18:46:29,166 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-23 18:46:29,167 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-23 18:46:29,167 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-23 18:46:29,168 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-23 18:46:29,168 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-23 18:46:29,185 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-23 18:46:29,187 - INFO - [base.py:1843] - INSERT INTO users (name, email, encrypted_password) VALUES (%(name)s, %(email)s, %(encrypted_password)s)
+2025-04-23 18:46:29,187 - INFO - [base.py:1843] - [generated in 0.00015s] {'name': 'test', 'email': 'test.com', 'encrypted_password': '$2b$12$PHliwGZR6TZd1l.Jj.MS7O4unAVBrTS00kJuEk3tuT/OCHzVLdTjK'}
+2025-04-23 18:46:29,188 - INFO - [base.py:2705] - COMMIT
+2025-04-23 18:46:29,191 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-23 18:46:29,193 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.encrypted_password AS users_encrypted_password 
+FROM users 
+WHERE users.id = %(pk_1)s
+2025-04-23 18:46:29,193 - INFO - [base.py:1843] - [generated in 0.00014s] {'pk_1': 13}
+2025-04-23 18:46:29,194 - INFO - [manage_user.py:59] - User created with ID 13
+2025-04-23 18:46:29,194 - INFO - [base.py:2702] - ROLLBACK

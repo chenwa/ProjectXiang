@@ -31,10 +31,10 @@ def read_user(id: int):
     logger.info(f"id: {id}")
     return {"user": get_user_by_id(id)}
 
-@app.post("/users_create/{name}/{email}")
-def create_user(name: str, email: str):
+@app.post("/users_create/{name}/{email}/{password}")
+def create_user(name: str, email: str, password):
     logger.info(f"adding user: {name}, {email}")
-    return {"user": add_user(name, email)}
+    return {"user": add_user(name, email, password)}
 
 @app.delete("/user_delete/{email}")
 def delete_user(email: str):

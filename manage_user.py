@@ -1,4 +1,5 @@
 import logging
+import bcrypt
 from utils.logger import setup_logging
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
@@ -31,27 +32,36 @@ def get_user_by_id(user_id: int):
         # Always close the session to free resources.
         session.close()
 
-def add_user(name: str, email: str):
+def add_user(name: str, email: str, password: str):
     """
-    Creates a new user in the database.
-    
+    Creates a new user in the database with an encrypted password.
+
     Parameters:
         name (str): The name of the user.
         email (str): The email of the user.
-    
+        password (str): The plaintext password of the user.
+
     Returns:
         User: The newly created User object.
     """
     session = Session()
     try:
-        new_user = User(name=name, email=email)
+        # Hash the password using bcrypt
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+        # Create a new User object
+        new_user = User(name=name, email=email, encrypted_password=hashed_password.decode('utf-8'))
+
+        # Add and commit the new user to the database
         session.add(new_user)
         session.commit()
+
         logger.info(f"User created with ID {new_user.id}")
         return new_user
     except Exception as e:
-        session.rollback()  # Rollback any changes if error occurs.
+        session.rollback()  # Rollback any changes if error occurs
         logger.error("Error creating user:", e)
+        return None
     finally:
         session.close()
 
