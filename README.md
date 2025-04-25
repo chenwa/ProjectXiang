@@ -21,7 +21,7 @@ CREATE TABLE users (
 );
 ```
 
-4. Create a Virtual Enviroment:    
+4. Create and launch a Virtual Enviroment:    
 ```
 python3 -m venv evn
 ```

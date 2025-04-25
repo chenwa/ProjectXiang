@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 import logging
+from pydantic import BaseModel
 from utils.logger import setup_logging 
 from manage_user import (
     add_user, 
@@ -14,6 +15,11 @@ setup_logging()
 logger = logging.getLogger('my_module')
 
 app = FastAPI()
+
+class UserCreate(BaseModel):
+    name: str
+    email: str
+    password: str
 
 @app.get("/")
 def read_root():
@@ -32,10 +38,10 @@ def read_user(id: int):
     logger.info(f"id: {id}")
     return {"user": get_user_by_id(id)}
 
-@app.post("/users_create/{name}/{email}/{password}")
-def create_user(name: str, email: str, password):
-    logger.info(f"adding user: {name}, {email}")
-    return {"user": add_user(name, email, password)}
+@app.post("/users_create/")
+def create_user(user: UserCreate):
+    logger.info(f"adding user: {user.name}, {user.email}")
+    return {"user": add_user(user.name, user.email, user.password)}
 
 @app.delete("/user_delete/{email}")
 def delete_user(email: str):

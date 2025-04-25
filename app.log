@@ -1375,3 +1375,21 @@ WHERE users.email = %(email_1)s
 2025-04-23 19:00:55,277 - INFO - [base.py:1843] - [generated in 0.00019s] {'email_1': 'test.com', 'param_1': 1}
 2025-04-23 19:00:55,495 - INFO - [manage_user.py:91] - Authentication successful!
 2025-04-23 19:00:55,495 - INFO - [base.py:2702] - ROLLBACK
+2025-04-25 14:26:22,609 - INFO - [main.py:43] - adding user: testingBody, testing@body.com
+2025-04-25 14:26:22,935 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-25 14:26:22,935 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-25 14:26:22,941 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-25 14:26:22,941 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-25 14:26:22,941 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-25 14:26:22,942 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-25 14:26:22,942 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-25 14:26:22,944 - INFO - [base.py:1843] - INSERT INTO users (name, email, encrypted_password) VALUES (%(name)s, %(email)s, %(encrypted_password)s)
+2025-04-25 14:26:22,944 - INFO - [base.py:1843] - [generated in 0.00018s] {'name': 'testingBody', 'email': 'testing@body.com', 'encrypted_password': '$2b$12$agyQyYu8vxmJETOZqOwOoO.bqAZ0hIOILj.QPkihH40U11tPF2TJK'}
+2025-04-25 14:26:22,977 - INFO - [base.py:2705] - COMMIT
+2025-04-25 14:26:22,980 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-25 14:26:22,982 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.encrypted_password AS users_encrypted_password 
+FROM users 
+WHERE users.id = %(pk_1)s
+2025-04-25 14:26:22,982 - INFO - [base.py:1843] - [generated in 0.00018s] {'pk_1': 14}
+2025-04-25 14:26:22,985 - INFO - [manage_user.py:59] - User created with ID 14
+2025-04-25 14:26:22,985 - INFO - [base.py:2702] - ROLLBACK
