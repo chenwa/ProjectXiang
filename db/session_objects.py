@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, func
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 # Configure your connection settings
@@ -17,6 +17,8 @@ class User(Base):
     name = Column(String(100), nullable=False)
     email = Column(String(100), unique=True)
     encrypted_password = Column(String(255))
+    created_at = Column(DateTime, default=func.now(), nullable=False)  
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
 
 # Create a session factory
 Session = sessionmaker(bind=engine)

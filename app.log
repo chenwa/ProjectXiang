@@ -1393,3 +1393,45 @@ WHERE users.id = %(pk_1)s
 2025-04-25 14:26:22,982 - INFO - [base.py:1843] - [generated in 0.00018s] {'pk_1': 14}
 2025-04-25 14:26:22,985 - INFO - [manage_user.py:59] - User created with ID 14
 2025-04-25 14:26:22,985 - INFO - [base.py:2702] - ROLLBACK
+2025-04-25 14:41:48,413 - INFO - [main.py:53] - updating username of yahoo.com to warren
+2025-04-25 14:41:48,424 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-25 14:41:48,424 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-25 14:41:48,425 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-25 14:41:48,425 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-25 14:41:48,425 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-25 14:41:48,426 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-25 14:41:48,426 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-25 14:41:48,429 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.encrypted_password AS users_encrypted_password, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-25 14:41:48,429 - INFO - [base.py:1843] - [generated in 0.00020s] {'email_1': 'yahoo.com', 'param_1': 1}
+2025-04-25 14:41:48,433 - INFO - [base.py:1843] - UPDATE users SET name=%(name)s, updated_at=now() WHERE users.id = %(users_id)s
+2025-04-25 14:41:48,433 - INFO - [base.py:1843] - [generated in 0.00018s] {'name': 'warren', 'users_id': 3}
+2025-04-25 14:41:48,436 - INFO - [base.py:2705] - COMMIT
+2025-04-25 14:41:48,437 - INFO - [manage_user.py:147] - User with email yahoo.com has been updated to name warren.
+2025-04-25 14:43:34,915 - INFO - [main.py:43] - adding user: vina, yahoo.com
+2025-04-25 14:43:35,171 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-25 14:43:35,173 - INFO - [base.py:1843] - INSERT INTO users (name, email, encrypted_password, created_at, updated_at) VALUES (%(name)s, %(email)s, %(encrypted_password)s, now(), now())
+2025-04-25 14:43:35,173 - INFO - [base.py:1843] - [generated in 0.00021s] {'name': 'vina', 'email': 'yahoo.com', 'encrypted_password': '$2b$12$nzObzbGumElDmbxioJIF3ObujVDzHMtFl0pughNAowZXl2CrHNVBG'}
+2025-04-25 14:43:35,174 - INFO - [base.py:2702] - ROLLBACK
+2025-04-25 14:47:08,105 - INFO - [main.py:63] - Validating user: test.com
+2025-04-25 14:47:08,107 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-25 14:47:08,107 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.encrypted_password AS users_encrypted_password, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-25 14:47:08,107 - INFO - [base.py:1843] - [cached since 319.7s ago] {'email_1': 'test.com', 'param_1': 1}
+2025-04-25 14:47:08,378 - INFO - [manage_user.py:91] - Authentication successful!
+2025-04-25 14:47:08,379 - INFO - [base.py:2702] - ROLLBACK
+2025-04-25 14:48:05,823 - INFO - [main.py:53] - updating username of comicator.com to Xiang
+2025-04-25 14:48:05,824 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-25 14:48:05,824 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.encrypted_password AS users_encrypted_password, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-04-25 14:48:05,824 - INFO - [base.py:1843] - [cached since 377.4s ago] {'email_1': 'comicator.com', 'param_1': 1}
+2025-04-25 14:48:05,826 - INFO - [base.py:1843] - UPDATE users SET name=%(name)s, updated_at=now() WHERE users.id = %(users_id)s
+2025-04-25 14:48:05,826 - INFO - [base.py:1843] - [cached since 377.4s ago] {'name': 'Xiang', 'users_id': 6}
+2025-04-25 14:48:05,827 - INFO - [base.py:2705] - COMMIT
+2025-04-25 14:48:05,829 - INFO - [manage_user.py:147] - User with email comicator.com has been updated to name Xiang.
