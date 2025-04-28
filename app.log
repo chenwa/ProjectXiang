@@ -1435,3 +1435,35 @@ WHERE users.email = %(email_1)s
 2025-04-25 14:48:05,826 - INFO - [base.py:1843] - [cached since 377.4s ago] {'name': 'Xiang', 'users_id': 6}
 2025-04-25 14:48:05,827 - INFO - [base.py:2705] - COMMIT
 2025-04-25 14:48:05,829 - INFO - [manage_user.py:147] - User with email comicator.com has been updated to name Xiang.
+2025-04-28 16:36:44,327 - INFO - [main.py:69] - adding address of 2
+2025-04-28 16:36:44,342 - INFO - [base.py:1843] - SELECT DATABASE()
+2025-04-28 16:36:44,343 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-28 16:36:44,344 - INFO - [base.py:1843] - SELECT @@sql_mode
+2025-04-28 16:36:44,344 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-28 16:36:44,344 - INFO - [base.py:1843] - SELECT @@lower_case_table_names
+2025-04-28 16:36:44,344 - INFO - [base.py:1843] - [raw sql] {}
+2025-04-28 16:36:44,345 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-28 16:36:44,348 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.encrypted_password AS users_encrypted_password, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-04-28 16:36:44,348 - INFO - [base.py:1843] - [generated in 0.00020s] {'id_1': 2, 'param_1': 1}
+2025-04-28 16:36:44,349 - INFO - [manage_user.py:88] - No user found with ID 2.
+2025-04-28 16:36:44,349 - INFO - [base.py:2702] - ROLLBACK
+2025-04-28 16:39:28,505 - INFO - [main.py:69] - adding address of 3
+2025-04-28 16:39:28,505 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-28 16:39:28,506 - INFO - [base.py:1843] - SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.encrypted_password AS users_encrypted_password, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-04-28 16:39:28,506 - INFO - [base.py:1843] - [cached since 164.2s ago] {'id_1': 3, 'param_1': 1}
+2025-04-28 16:39:28,518 - INFO - [base.py:1843] - INSERT INTO addresses (user_id, street, city, state, zip_code, country) VALUES (%(user_id)s, %(street)s, %(city)s, %(state)s, %(zip_code)s, %(country)s)
+2025-04-28 16:39:28,518 - INFO - [base.py:1843] - [generated in 0.00023s] {'user_id': 3, 'street': '123 street', 'city': 'kenmore', 'state': 'washington', 'zip_code': '98028', 'country': 'wa'}
+2025-04-28 16:39:28,519 - INFO - [base.py:2705] - COMMIT
+2025-04-28 16:39:28,520 - INFO - [manage_user.py:104] - Address added for user ID 3.
+2025-04-28 16:39:28,521 - INFO - [base.py:2699] - BEGIN (implicit)
+2025-04-28 16:39:28,522 - INFO - [base.py:1843] - SELECT addresses.id AS addresses_id, addresses.user_id AS addresses_user_id, addresses.street AS addresses_street, addresses.city AS addresses_city, addresses.state AS addresses_state, addresses.zip_code AS addresses_zip_code, addresses.country AS addresses_country 
+FROM addresses 
+WHERE addresses.id = %(pk_1)s
+2025-04-28 16:39:28,522 - INFO - [base.py:1843] - [generated in 0.00015s] {'pk_1': 1}
+2025-04-28 16:39:28,523 - INFO - [base.py:2702] - ROLLBACK

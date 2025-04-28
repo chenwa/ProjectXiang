@@ -3,7 +3,7 @@ import bcrypt
 from utils.logger import setup_logging
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
-from db.session_objects import Session, User
+from db.session_objects import Session, User, Address
 
 setup_logging()
 logger = logging.getLogger('my_module')
@@ -62,6 +62,51 @@ def add_user(name: str, email: str, password: str):
         session.rollback()  # Rollback any changes if error occurs
         logger.error("Error creating user:", e)
         return None
+    finally:
+        session.close()
+
+def add_user_address(user_id: int, street: str, city: str, state: str, zip_code: str, country: str):
+    """
+    Adds a new address for a specified user.
+
+    Parameters:
+        user_id (int): The ID of the user to associate with the address.
+        street (str): The street address.
+        city (str): The city name.
+        state (str): The state/province name.
+        zip_code (str): The postal/zip code.
+        country (str): The country name.
+
+    Returns:
+        dict: A message indicating success or failure.
+    """
+    session = Session()
+    try:
+        # Validate that the user exists
+        user = session.query(User).filter_by(id=user_id).first()
+        if not user:
+            logger.info(f"No user found with ID {user_id}.")
+            return {"error": "User not found"}
+
+        # Create a new Address object
+        new_address = Address(
+            user_id=user_id,
+            street=street,
+            city=city,
+            state=state,
+            zip_code=zip_code,
+            country=country
+        )
+
+        # Add and commit the new address to the database
+        session.add(new_address)
+        session.commit()
+        logger.info(f"Address added for user ID {user_id}.")
+        return {"message": "Address added successfully", "address_id": new_address.id}
+    except Exception as e:
+        session.rollback()  # Rollback the transaction in case of error
+        logger.error(f"Error adding address for user ID {user_id}: {e}")
+        return {"error": "Failed to add address"}
     finally:
         session.close()
 

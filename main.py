@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from utils.logger import setup_logging 
 from manage_user import (
     add_user, 
+    add_user_address,
     authenticate_user_password,
     get_user_by_id, 
     delete_user_by_email,
@@ -62,6 +63,13 @@ def find_users_by_name(query: str):
 def authenticate_user(email: str, password: str):
     logger.info(f"Validating user: {email}")
     return {"success": authenticate_user_password(email, password)}
+
+@app.post("/add_user_address/")
+def add_user_address_endpoint(user_id: int, street: str, city: str, state: str, zip_code: str, country: str):
+    logger.info(f"adding address of {user_id}")
+    return {"message": add_user_address(user_id, street, city, state, zip_code, country)}
+
+
 
 
 
