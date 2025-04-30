@@ -10,29 +10,7 @@ Setup:
 ```pip install -r requirements.txt```
 
 3. Create database and add tables:
-```
-CREATE TABLE users (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    encrypted_password VARCHAR(255)
-);
-
-CREATE TABLE addresses (
-    id INT PRIMARY KEY AUTO_INCREMENT, -- Auto-increment primary key
-    user_id INT NOT NULL, -- Foreign key to the users table
-    street VARCHAR(255) NOT NULL,
-    city VARCHAR(100) NOT NULL,
-    state VARCHAR(100),
-    zip_code VARCHAR(20),
-    country VARCHAR(100) NOT NULL,
-    CONSTRAINT fk_user
-        FOREIGN KEY (user_id) REFERENCES users(id) -- Ensures referential integrity
-);
-
-```
+Run migration scripts to create tables (./migration/)
 
 4. Create and launch a Virtual Enviroment:    
 ```
