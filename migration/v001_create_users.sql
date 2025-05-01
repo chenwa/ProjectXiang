@@ -1,12 +1,9 @@
-SELECT 
-    users.id AS user_id,
-    users.name AS user_name,
-    addresses.id AS address_id,
-    addresses.city AS address_city
-FROM 
-    users
-FULL OUTER JOIN 
-    addresses
-ON 
-    users.id = addresses.user_id;
-
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100),
+    email VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    encrypted_password VARCHAR(255)
+);
