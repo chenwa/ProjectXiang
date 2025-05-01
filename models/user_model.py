@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 class UserModel(BaseModel):
-    name: str
+    first_name: str
+    last_name: str
     email: str
     password: str

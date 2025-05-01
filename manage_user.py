@@ -4,6 +4,8 @@ from utils.logger import setup_logging
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
 from db.session_objects import Session, User, Address
+from models.address_model import AddressModel
+from models.user_model import UserModel
 
 setup_logging()
 logger = logging.getLogger('my_module')
@@ -32,38 +34,63 @@ def get_user_by_id(user_id: int):
         # Always close the session to free resources.
         session.close()
 
-def add_user(name: str, email: str, password: str):
+def add_user(user: UserModel, address: AddressModel):
     """
     Creates a new user in the database with an encrypted password.
+    Then adds address to the newly created user.
 
     Parameters:
-        name (str): The name of the user.
-        email (str): The email of the user.
-        password (str): The plaintext password of the user.
-
+        user (UserModel): a model containing first_name, last_name, email,
+        and password
+        
+        address: (AddressModel): a model containing user_id (will be replaced
+        later so this is insignificant), street, city, state, zip_code
+        , and country
+        
     Returns:
         User: The newly created User object.
     """
     session = Session()
     try:
         # Hash the password using bcrypt
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
 
         # Create a new User object
-        new_user = User(name=name, email=email, encrypted_password=hashed_password.decode('utf-8'))
+        new_user = User(
+                first_name=user.first_name,
+                last_name=user.last_name,
+                email=user.email,
+                encrypted_password=hashed_password.decode('utf-8')
+        )
 
         # Add and commit the new user to the database
         session.add(new_user)
         session.commit()
 
         logger.info(f"User created with ID {new_user.id}")
-        return new_user
     except Exception as e:
         session.rollback()  # Rollback any changes if error occurs
         logger.error("Error creating user:", e)
         return None
     finally:
         session.close()
+
+    # Retrieve the user's ID and add the address using the add_user_address function.
+    new_user_id = find_user_id_by_email(user.email)
+    if new_user_id is not None:
+        address_result = add_user_address(
+            new_user_id,
+            address.street,
+            address.city,
+            address.state,
+            address.zip_code,
+            address.country
+        )
+        logger.info(f"Address add result: {address_result}")
+    else:
+        logger.error("Failed to locate new user to add address.")
+
+    return new_user
 
 def add_user_address(user_id: int, street: str, city: str, state: str, zip_code: str, country: str):
     """
@@ -187,7 +214,7 @@ def update_user_name_by_email(email: str, new_name: str):
     try:
         user = session.query(User).filter_by(email=email).first()
         if user:
-            user.name = new_name  # Update the name
+            user.first_name = new_name  # Update the name
             session.commit()
             logger.info(f"User with email {email} has been updated to name {new_name}.")
             return True
@@ -215,13 +242,13 @@ def search_users_by_name(query: str):
     session = Session()
     try:
         # Use the `ilike` operator for a case-insensitive search
-        matching_users = session.query(User).filter(User.name.ilike(f"%{query}%")).all()
+        matching_users = session.query(User).filter(User.first_name.ilike(f"%{query}%")).all()
         
         # Logging or debugging output
         if matching_users:
             logger.info(f"Found {len(matching_users)} users matching '{query}':")
             for user in matching_users:
-                logger.info(f"ID: {user.id}, Name: {user.name}, Email: {user.email}")
+                logger.info(f"ID: {user.id}, Name: {user.first_name}, Email: {user.email}")
         else:
             logger.info(f"No users found matching '{query}'.")
             
@@ -231,4 +258,32 @@ def search_users_by_name(query: str):
         return []
     finally:
         session.close()
+
+def find_user_id_by_email(email: str):
+    """
+    Finds and returns the ID of the user with the given email.
+
+    Parameters:
+        email (str): The email address of the user.
+
+    Returns:
+        int or None: The user's ID if found, otherwise None.
+    """
+    session = Session()
+    try:
+        # Query the user based on email
+        user = session.query(User).filter_by(email=email).first()
+        if user:
+            logger.info(f"User found with email {email}: ID {user.id}")
+            return user.id
+        else:
+            logger.info(f"No user found with email {email}.")
+            return None
+    except Exception as e:
+        logger.error(f"Error finding user by email: {e}")
+        return None
+    finally:
+        session.close()
+
+
 

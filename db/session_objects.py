@@ -1,5 +1,13 @@
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, func, ForeignKey
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker, relationship
+from sqlalchemy import (
+        create_engine,
+        Column,
+        Integer,
+        String,
+        DateTime,
+        func,
+        ForeignKey
+        )
 
 # Configure your connection settings
 DATABASE_URL = "mysql+pymysql://root:warren1928@localhost/project_xiang"
@@ -14,11 +22,16 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
+    first_name = Column(String(100), nullable=False)
+    last_name = Column(String(100), nullable=False)
     email = Column(String(100), unique=True)
     encrypted_password = Column(String(255))
     created_at = Column(DateTime, default=func.now(), nullable=False)  
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
+
+    # Establish bidirectional relationship with Address
+    addresses = relationship("Address", back_populates="user",
+                             cascade="all, delete-orphan", lazy="joined")
 
 class Address(Base):
     __tablename__ = 'addresses'
@@ -30,6 +43,9 @@ class Address(Base):
     state = Column(String(100), nullable=True)
     zip_code = Column(String(20), nullable=True)
     country = Column(String(100), nullable=False)
+
+    # Establish bidirectional relationship with User
+    user = relationship("User", back_populates="addresses")
 
 # Create a session factory
 Session = sessionmaker(bind=engine)

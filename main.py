@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 import logging
-from pydantic import BaseModel
 from utils.logger import setup_logging 
+from models.user_model import UserModel
+from models.address_model import AddressModel
 from manage_user import (
     add_user, 
     add_user_address,
@@ -16,11 +17,6 @@ setup_logging()
 logger = logging.getLogger('my_module')
 
 app = FastAPI()
-
-class UserCreate(BaseModel):
-    name: str
-    email: str
-    password: str
 
 @app.get("/")
 def read_root():
@@ -40,17 +36,17 @@ def read_user(id: int):
     return {"user": get_user_by_id(id)}
 
 @app.post("/users_create/")
-def create_user(user: UserCreate):
-    logger.info(f"adding user: {user.name}, {user.email}")
-    return {"user": add_user(user.name, user.email, user.password)}
+def create_user(user: UserModel, address: AddressModel):
+    logger.info(f"adding user: {user.first_name}, {user.email}")
+    return {"user": add_user(user, address)}
 
 @app.delete("/user_delete/{email}")
 def delete_user(email: str):
     logger.info(f"deleting user with email: {email}")
     return {"success": delete_user_by_email(email)}
 
-@app.post("/user_update/{email}/{new_name}")
-def update_user(email: str, new_name: str):
+@app.post("/user_update_name/{email}/{new_name}")
+def update_user_name(email: str, new_name: str):
     logger.info(f"updating username of {email} to {new_name}")
     return {"success": update_user_name_by_email(email, new_name)} 
 
@@ -65,10 +61,11 @@ def authenticate_user(email: str, password: str):
     return {"success": authenticate_user_password(email, password)}
 
 @app.post("/add_user_address/")
-def add_user_address_endpoint(user_id: int, street: str, city: str, state: str, zip_code: str, country: str):
-    logger.info(f"adding address of {user_id}")
-    return {"message": add_user_address(user_id, street, city, state, zip_code, country)}
-
+def add_user_address_endpoint(address: AddressModel):
+    logger.info(f"adding address of {address.user_id}")
+    return {"message": add_user_address(address.user_id, address.street,
+                                        address.city, address.state, 
+                                        address.zip_code, address.country)}
 
 
 
