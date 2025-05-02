@@ -4,8 +4,8 @@ from utils.logger import setup_logging
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
 from db.session_objects import Session, User, Address
-from models.address_model import AddressModel
-from models.user_model import UserModel
+from dtos.address_dto import AddressModel
+from dtos.user_dto import UserModel
 
 setup_logging()
 logger = logging.getLogger('my_module')

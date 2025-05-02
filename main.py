@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 import logging
 from utils.logger import setup_logging
-from models.user_model import UserModel
-from models.address_model import AddressModel
+from dtos.user_dto import UserModel
+from dtos.address_dto import AddressModel
 from manage_user import (
     add_user,
     add_user_address,
