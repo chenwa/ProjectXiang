@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 import logging
 from utils.logger import setup_logging
-from dtos.user_dto import UserModel
-from dtos.address_dto import AddressModel
+from dtos.user_dto import UserDTO
+from dtos.address_dto import AddressDTO
 from manage_user import (
     add_user,
     add_user_address,
@@ -34,13 +34,13 @@ def read_user(user_id: int):
 
 
 @app.post("/users_create/")
-def create_user(user: UserModel, address: AddressModel):
+def create_user(user: UserDTO, address: AddressDTO):
     """
     Endpoint to create a new user and their address.
 
     Parameters:
-        user (UserModel): The user model containing user details.
-        address (AddressModel): The address model containing address details.
+        user (UserDTO): The user model containing user details.
+        address (AddressDTO): The address DTO containing address details.
 
     Returns:
         dict: The created user object.
@@ -112,12 +112,12 @@ def authenticate_user(email: str, password: str):
 
 
 @app.post("/add_user_address/")
-def add_user_address_endpoint(address: AddressModel):
+def add_user_address_endpoint(address: AddressDTO):
     """
     Endpoint to add an address for a user.
 
     Parameters:
-        address (AddressModel): The address model containing address details.
+        address (AddressDTO): The address model containing address details.
 
     Returns:
         dict: Success message and address details.

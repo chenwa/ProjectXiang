@@ -3,8 +3,8 @@ import bcrypt
 from utils.limiter import rate_limiter
 from utils.logger import setup_logging
 from db.session_objects import Session, User, Address
-from dtos.address_dto import AddressModel
-from dtos.user_dto import UserModel
+from dtos.address_dto import AddressDTO
+from dtos.user_dto import UserDTO
 
 setup_logging()
 logger = logging.getLogger('my_module')
@@ -29,15 +29,15 @@ def get_user_by_id(user_id: int):
         session.close()
 
 
-def add_user(user: UserModel, address: AddressModel):
+def add_user(user: UserDTO, address: AddressDTO):
     """
     Creates a new user in the database with an encrypted password.
     Then adds address to the newly created user.
 
     Parameters:
-        user (UserModel): A model containing first_name, last_name, email,
+        user (UserDTO): A DTO containing first_name, last_name, email,
                           and password.
-        address (AddressModel): A model containing street, city, state,
+        address (AddressDTO): A DTO containing street, city, state,
                                 zip_code, and country.
 
     Returns:
