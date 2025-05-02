@@ -18,34 +18,6 @@ logger = logging.getLogger('my_module')
 
 app = FastAPI()
 
-
-@app.get("/")
-def read_root():
-    """
-    Root endpoint that returns a welcome message.
-    """
-    logger.info("/ reached")
-    logger.debug("hello")
-    logger.error("err")
-    return {"message": "Hello, World!"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str = None):
-    """
-    Endpoint to retrieve an item by its ID.
-
-    Parameters:
-        item_id (int): The ID of the item.
-        q (str, optional): An optional query parameter.
-
-    Returns:
-        dict: The item ID and query parameter.
-    """
-    logger.info(f"/items/{item_id}")
-    return {"item_id": item_id, "q": q}
-
-
 @app.get("/users/{user_id}")
 def read_user(user_id: int):
     """

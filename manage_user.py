@@ -1,6 +1,6 @@
 import logging
 import bcrypt
-from limiter import rate_limiter
+from utils.limiter import rate_limiter
 from utils.logger import setup_logging
 from db.session_objects import Session, User, Address
 from dtos.address_dto import AddressModel
