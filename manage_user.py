@@ -1,8 +1,7 @@
 import logging
 import bcrypt
+from limiter import rate_limiter
 from utils.logger import setup_logging
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import declarative_base, sessionmaker
 from db.session_objects import Session, User, Address
 from dtos.address_dto import AddressModel
 from dtos.user_dto import UserModel
@@ -11,6 +10,7 @@ setup_logging()
 logger = logging.getLogger('my_module')
 
 
+@rate_limiter(max_requests=1, time_window=60)
 def get_user_by_id(user_id: int):
     """
     Return a User instance by its id.
