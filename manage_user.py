@@ -36,9 +36,9 @@ def add_user(user: UserDTO, address: AddressDTO):
 
     Parameters:
         user (UserDTO): A DTO containing first_name, last_name, email,
-                          and password.
+                        and password.
         address (AddressDTO): A DTO containing street, city, state,
-                                zip_code, and country.
+                              zip_code, and country.
 
     Returns:
         User: The newly created User object.
@@ -64,10 +64,10 @@ def add_user(user: UserDTO, address: AddressDTO):
     finally:
         session.close()
 
-    new_user_id = find_user_id_by_email(user.email)
-    if new_user_id:
+    user_id = get_user_id_by_email(user.email)
+    if new_user:
         address_result = add_user_address(
-            new_user_id,
+            user_id,
             address.street,
             address.city,
             address.state,
@@ -245,30 +245,58 @@ def search_users_by_name(query: str):
         session.close()
 
 
-def find_user_id_by_email(email: str):
+def return_user_by_email(email: str):
     """
-    Finds and returns the ID of the user with the given email.
+    Retrieves a user from the database by their email and returns a UserDTO.
 
     Parameters:
-        email (str): The email address of the user.
+        email (str): The email of the user to retrieve.
 
     Returns:
-        int or None: The user's ID if found, otherwise None.
+        UserDTO: A UserDTO object if the user is found, otherwise None.
     """
     session = Session()
     try:
         user = session.query(User).filter_by(email=email).first()
         if user:
-            logger.info(f"User found with email {email}: ID {user.id}")
-            return user.id
+            logger.info(f"User found with email {email}.")
+            return UserDTO(
+                first_name=user.first_name,
+                last_name=user.last_name,
+                email=user.email,
+                password="protected"
+            )
         else:
             logger.info(f"No user found with email {email}.")
             return None
     except Exception as e:
-        logger.error(f"Error finding user by email: {e}")
+        logger.error(f"Error retrieving user by email: {e}")
         return None
     finally:
         session.close()
 
 
+def get_user_id_by_email(email: str):
+    """
+    Retrieves the user ID from the database based on their email.
 
+    Parameters:
+        email (str): The email of the user.
+
+    Returns:
+        int: The user ID if found, otherwise None.
+    """
+    session = Session()
+    try:
+        user = session.query(User).filter_by(email=email).first()
+        if user:
+            logger.info(f"User ID {user.id} found for email {email}.")
+            return user.id
+        else:
+            logger.info(f"No user found with email {email}.")
+            return None
+    except Exception as e:
+        logger.error(f"Error retrieving user ID by email: {e}")
+        return None
+    finally:
+        session.close()
