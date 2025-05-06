@@ -1,4 +1,3 @@
 app.log
 get-pip.py
-__pycache__/
-utils/__pycache__/
+**/__pycache__/
