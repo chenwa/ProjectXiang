@@ -1,3 +1,4 @@
+import os
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from sqlalchemy import (
         create_engine,
@@ -10,12 +11,12 @@ from sqlalchemy import (
         )
 
 # Configure your connection settings
-DATABASE_URL = "mysql+pymysql://root:warren1928@localhost/project_xiang"
+DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:warren1928@localhost/project_xiang")
 
 # Create an engine
-engine = create_engine(DATABASE_URL, echo=True)
+engine = create_engine(DATABASE_URL)
 
-# Define the declarative base
+# Base class for ORM models
 Base = declarative_base()
 
 # Define your ORM model corresponding to the "users" table.
