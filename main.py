@@ -1,10 +1,9 @@
-from fastapi import FastAPI, Depends, File, UploadFile, HTTPException
+from fastapi import FastAPI, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_login import LoginManager
 from fastapi_login.exceptions import InvalidCredentialsException
-from fastapi.openapi.utils import get_openapi
 import logging
-from utils.logger import setup_logging
+from utils.logger import setup_logging, router
 from dtos.user_dto import UserDTO
 from dtos.address_dto import AddressDTO
 from manage_user import (
@@ -18,7 +17,6 @@ from manage_user import (
     return_user_by_email,
     get_user_id_by_email
 )
-import pandas as pd
 
 setup_logging()
 logger = logging.getLogger('my_module')
@@ -48,6 +46,7 @@ def load_user(email: str):
     return None
 
 app = FastAPI()
+app.include_router(router)
 
 @app.post("/login")
 def login(data: OAuth2PasswordRequestForm = Depends()):
@@ -216,69 +215,3 @@ def get_user_by_email_endpoint(email: str):
         }
     else:
         logger.warning(f"No user found with email: {email}")
-
-@app.post("/bulk_upload_users/")
-def bulk_upload_users(file: UploadFile = File(...)):
-    """
-    Endpoint to bulk upload users from a CSV file.
-
-    Parameters:
-        file (UploadFile): The uploaded CSV file containing user data.
-
-    Returns:
-        dict: A summary of the bulk upload process.
-    """
-    if not file.filename.endswith(".csv"):
-        raise HTTPException(status_code=400, detail="Invalid file format. Please upload a CSV file.")
-
-    try:
-        # Read the CSV file into a pandas DataFrame
-        df = pd.read_csv(file.file)
-
-        # Validate required columns
-        required_columns = ["first_name", "last_name", "email", "password"]
-        if not all(column in df.columns for column in required_columns):
-            raise HTTPException(status_code=400, detail=f"CSV file must contain the following columns: {', '.join(required_columns)}")
-
-        # Iterate through the rows and create users
-        created_users = []
-        failed_users = []
-        for _, row in df.iterrows():
-            try:
-                # Create a UserDTO object
-                user_dto = UserDTO(
-                    first_name=row["first_name"],
-                    last_name=row["last_name"],
-                    email=row["email"],
-                    password=row["password"]
-                )
-
-                # Create a dummy address for the user
-                address_dto = AddressDTO(
-                    user_id=1,
-                    street="123 Default St",
-                    city="Default City",
-                    state="Default State",
-                    zip_code="00000",
-                    country="Default Country"
-                )
-
-                # Add the user to the database
-                new_user = add_user(user_dto, address_dto)
-                if new_user:
-                    created_users.append(row["email"])
-                else:
-                    failed_users.append(row["email"])
-            except Exception as e:
-                logger.error(f"Failed to create user {row['email']}: {e}")
-                failed_users.append(row["email"])
-
-        return {
-            "message": "Bulk upload completed.",
-            "created_users": created_users,
-            "failed_users": failed_users
-        }
-
-    except Exception as e:
-        logger.error(f"Error processing bulk upload: {e}")
-        raise HTTPException(status_code=500, detail="An error occurred while processing the file.")
