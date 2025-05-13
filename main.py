@@ -18,6 +18,10 @@ from manage_user import (
     return_user_by_email,
     get_user_id_by_email
 )
+from db.session_objects import Base, engine
+
+# Initialize the database schema
+Base.metadata.create_all(bind=engine)
 
 setup_logging()
 logger = logging.getLogger('my_module')
@@ -46,6 +50,7 @@ def load_user(email: str):
     logger.warning(f"No user found")
     return None
 
+# FastAPI app setup
 app = FastAPI()
 app.include_router(router)
 
