@@ -11,7 +11,7 @@ from sqlalchemy import (
         )
 
 # Configure your connection settings
-DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:warren1928@localhost/project_xiang")
+DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:password@localhost/project_xiang")
 
 # Create an engine
 engine = create_engine(DATABASE_URL)

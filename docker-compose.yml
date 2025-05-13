@@ -11,7 +11,7 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_URL=mysql+pymysql://root:warren1928@db/project_xiang
+      - DATABASE_URL=mysql+pymysql://root:password@db/project_xiang
 
   db:
     image: mysql:8.0
