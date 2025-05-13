@@ -3,7 +3,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_login import LoginManager
 from fastapi_login.exceptions import InvalidCredentialsException
 import logging
-from utils.logger import setup_logging, router
+from utils.logger import setup_logging
+from utils.bulk_upload import router
 from dtos.user_dto import UserDTO
 from dtos.address_dto import AddressDTO
 from manage_user import (

@@ -1,7 +1,8 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 import pandas as pd
-from dtos import UserDTO, AddressDTO  # Ensure correct imports
-from db import add_user  # Ensure correct imports
+from dtos.address_dto import AddressDTO
+from dtos.user_dto import UserDTO
+from manage_user import add_user
 import logging
 
 logger = logging.getLogger(__name__)
