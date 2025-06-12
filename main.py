@@ -19,6 +19,7 @@ from manage_user import (
     get_user_id_by_email
 )
 from db.session_objects import Base, engine
+from fastapi.middleware.cors import CORSMiddleware
 
 # Initialize the database schema
 Base.metadata.create_all(bind=engine)
@@ -52,6 +53,15 @@ def load_user(email: str):
 
 # FastAPI app setup
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # or ["*"] for all origins (not recommended for production)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(router)
 
 @app.post("/login")
@@ -75,6 +85,8 @@ def login(data: OAuth2PasswordRequestForm = Depends()):
 
     # Create the token with the user's email as the subject
     access_token = manager.create_access_token(data={"sub": email})
+    logger.info(f"Generated access_token for {email}: {access_token}")  # Log the access token
+    
     return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/users/{user_id}")
@@ -180,22 +192,25 @@ def add_user_address_endpoint(
         dict: Success message and address details.
     """
     logger.info(f"Authenticated user: {user}")  # Log the authenticated user
-    logger.info(f"Adding address for user ID: {address.user_id}")
 
-    # Ensure the authenticated user matches the user_id in the address
+    # Get the user_id for the authenticated user
     user_id = get_user_id_by_email(user)
-    if user_id != address.user_id:
-        return {"error": "You are not authorized to add an address for this user."}
+    # Always set the user_id from the token, not from the client
+    address.user_id = user_id
 
+    # Call add_user_address from manage_user.py to add the address
+    result = add_user_address(
+        address.user_id,
+        address.street,
+        address.city,
+        address.state,
+        address.zip_code,
+        address.country
+    )
+    logger.info(f"add_user_address result: {result}")
     return {
-        "message": add_user_address(
-            address.user_id,
-            address.street,
-            address.city,
-            address.state,
-            address.zip_code,
-            address.country
-        )
+        "message": "Address added successfully.",
+        "result": result
     }
 
 @app.get("/user_by_email/{email}")
