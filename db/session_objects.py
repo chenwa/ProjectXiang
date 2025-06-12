@@ -20,13 +20,13 @@ def get_database_url():
     if os.getenv("AWS_EXECUTION_ENV") or os.getenv("RDS_HOST"):
         # Use RDS connection string from environment variables
         user = os.getenv("RDS_USERNAME", "admin")
-        password = os.getenv("RDS_PASSWORD", "password")
+        password = os.getenv("RDS_PASSWORD", "projectxiang")
         host = os.getenv("RDS_HOST", "localhost")
         db = os.getenv("RDS_DB_NAME", "project_xiang")
         return f"mysql+pymysql://{user}:{password}@{host}/{db}"
 
     # 3. Default to local development
-    return "mysql+pymysql://root:password@localhost/project_xiang"
+    return "mysql+pymysql://root:warren1928@localhost/project_xiang"
 
 # Configure your connection settings
 DATABASE_URL = get_database_url()

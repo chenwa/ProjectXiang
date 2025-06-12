@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import API_BASE_URL from './config';
 
 const EditAddress: React.FC = () => {
   const [address, setAddress] = useState({
+    user_id: 0, // This will be set by the backend
     street: '',
     city: '',
     state: '',
@@ -23,7 +25,7 @@ const EditAddress: React.FC = () => {
     setMessage('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:8000/add_user_address/', {
+      const res = await fetch(`${API_BASE_URL}/add_user_address/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

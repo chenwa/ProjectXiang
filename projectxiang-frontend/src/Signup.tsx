@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from './config';
 
 const Signup: React.FC = () => {
   const [form, setForm] = useState({
@@ -44,7 +45,7 @@ const Signup: React.FC = () => {
             country: form.country,
           }
         : null;
-      const res = await fetch('http://localhost:8000/users_create/', {
+      const res = await fetch(`${API_BASE_URL}/users_create/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user, address }),

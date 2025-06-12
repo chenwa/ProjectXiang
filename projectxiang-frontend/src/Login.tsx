@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from './config';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ const Login: React.FC = () => {
       const form = new URLSearchParams();
       form.append('username', email);
       form.append('password', password);
-      const res = await fetch('http://localhost:8000/login', {
+      const res = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: form.toString(),
