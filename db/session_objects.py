@@ -19,10 +19,12 @@ def get_database_url():
     # 2. Detect AWS ECS/Fargate (set your own env var in task definition if needed)
     if os.getenv("AWS_EXECUTION_ENV") or os.getenv("RDS_HOST"):
         # Use RDS connection string from environment variables
-        user = os.getenv("RDS_USERNAME", "admin")
-        password = os.getenv("RDS_PASSWORD", "projectxiang")
-        host = os.getenv("RDS_HOST", "localhost")
-        db = os.getenv("RDS_DB_NAME", "project_xiang")
+        user = os.getenv("RDS_USERNAME")
+        password = os.getenv("RDS_PASSWORD")
+        host = os.getenv("RDS_HOST")
+        db = os.getenv("RDS_DB_NAME")
+        if not all([user, password, host, db]):
+            raise RuntimeError("Missing one or more required RDS environment variables: RDS_USERNAME, RDS_PASSWORD, RDS_HOST, RDS_DB_NAME")
         return f"mysql+pymysql://{user}:{password}@{host}/{db}"
 
     # 3. Default to local development
