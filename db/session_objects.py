@@ -16,7 +16,6 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL environment variable is not set. Please define it in your .env file.")
 engine = create_engine(DATABASE_URL)
-print("DATABASE_URL from env:", os.getenv("DATABASE_URL"))
 # Base class for ORM models
 Base = declarative_base()
 
