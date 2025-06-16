@@ -104,14 +104,14 @@ def read_user(user_id: int):
     return {"user": get_user_by_id(user_id)}
 
 @app.post("/users_create/")
-def create_user(user: UserDTO, address: AddressDTO):
+def create_user(user: UserDTO, address: AddressDTO = None):
     """
-    Endpoint to create a new user and their address.
-
+    Endpoint to create a new user and their address (address is optional).
+    
     Parameters:
         user (UserDTO): The user model containing user details.
-        address (AddressDTO): The address DTO containing address details.
-
+        address (AddressDTO, optional): The address DTO containing address details.
+    
     Returns:
         dict: The created user object.
     """

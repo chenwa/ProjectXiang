@@ -29,16 +29,14 @@ def get_user_by_id(user_id: int):
         session.close()
 
 
-def add_user(user: UserDTO, address: AddressDTO):
+def add_user(user: UserDTO, address: AddressDTO = None):
     """
     Creates a new user in the database with an encrypted password.
-    Then adds address to the newly created user.
+    Optionally adds address to the newly created user if provided.
 
     Parameters:
-        user (UserDTO): A DTO containing first_name, last_name, email,
-                        and password.
-        address (AddressDTO): A DTO containing street, city, state,
-                              zip_code, and country.
+        user (UserDTO): A DTO containing first_name, last_name, email, and password.
+        address (AddressDTO, optional): A DTO containing street, city, state, zip_code, and country.
 
     Returns:
         User: The newly created User object.
@@ -65,7 +63,7 @@ def add_user(user: UserDTO, address: AddressDTO):
         session.close()
 
     user_id = get_user_id_by_email(user.email)
-    if new_user:
+    if new_user and address is not None:
         address_result = add_user_address(
             user_id,
             address.street,
@@ -75,6 +73,8 @@ def add_user(user: UserDTO, address: AddressDTO):
             address.country
         )
         logger.info(f"Address add result: {address_result}")
+    elif new_user:
+        logger.info("No address provided, user created without address.")
     else:
         logger.error("Failed to locate new user to add address.")
 
