@@ -1,5 +1,5 @@
 # ProjectXiang
-ProjectXiang is the start of an API tool using FastAPI and Uvicorn
+ProjectXiang is now a backend-only FastAPI project. The React frontend has been migrated to separate repositories (e.g., text-genie, NeutralFit).
 
 ---
 
