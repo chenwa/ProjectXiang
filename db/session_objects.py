@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv()
 import os
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from sqlalchemy import (
@@ -10,32 +12,11 @@ from sqlalchemy import (
         ForeignKey
         )
 
-def get_database_url():
-    # 1. Use DATABASE_URL if set (Docker Compose, AWS ECS, or manual override)
-    db_url = os.getenv("DATABASE_URL")
-    if db_url:
-        return db_url
-
-    # 2. Detect AWS ECS/Fargate (set your own env var in task definition if needed)
-    if os.getenv("AWS_EXECUTION_ENV") or os.getenv("RDS_HOST"):
-        # Use RDS connection string from environment variables
-        user = os.getenv("RDS_USERNAME")
-        password = os.getenv("RDS_PASSWORD")
-        host = os.getenv("RDS_HOST")
-        db = os.getenv("RDS_DB_NAME")
-        if not all([user, password, host, db]):
-            raise RuntimeError("Missing one or more required RDS environment variables: RDS_USERNAME, RDS_PASSWORD, RDS_HOST, RDS_DB_NAME")
-        return f"mysql+pymysql://{user}:{password}@{host}/{db}"
-
-    # 3. Default to local development
-    return "mysql+pymysql://root:warren1928@localhost/project_xiang"
-
-# Configure your connection settings
-DATABASE_URL = get_database_url()
-
-# Create an engine
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL environment variable is not set. Please define it in your .env file.")
 engine = create_engine(DATABASE_URL)
-
+print("DATABASE_URL from env:", os.getenv("DATABASE_URL"))
 # Base class for ORM models
 Base = declarative_base()
 

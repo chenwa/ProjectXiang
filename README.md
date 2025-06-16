@@ -3,6 +3,47 @@ ProjectXiang is the start of an API tool using FastAPI and Uvicorn
 
 ---
 
+## Local MySQL Database Setup
+
+1. **Install MySQL**
+   - macOS: `brew install mysql`
+   - Ubuntu: `sudo apt-get install mysql-server`
+   - Windows: [Download MySQL](https://dev.mysql.com/downloads/installer/)
+
+2. **Start MySQL server**
+   - macOS: `brew services start mysql`
+   - Ubuntu: `sudo service mysql start`
+   - Windows: Use the MySQL Workbench or Services panel
+
+3. **Create the database**
+   ```sql
+   CREATE DATABASE project_xiang;
+   ```
+   You can do this in the MySQL shell:
+   ```sh
+   mysql -u root -p
+   # then in the prompt:
+   CREATE DATABASE project_xiang;
+   exit;
+   ```
+
+4. **(Optional) Set a password for the root user**
+   If you want to use a password other than the default, update your `.env` accordingly.
+
+## .env File Setup
+
+Create a `.env` file in the project root with the following content:
+
+```
+DATABASE_URL=mysql+pymysql://root:<your_mysql_password>@localhost/project_xiang
+```
+Replace `<your_mysql_password>` with your actual MySQL root password.
+
+- **Never commit your `.env` file to version control.**
+- The application will automatically load this file and use the `DATABASE_URL` for database connections.
+
+---
+
 ## Setup (Docker)
 
 1. **Install Docker**  
