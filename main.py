@@ -106,7 +106,7 @@ def read_user(user_id: int):
     logger.info(f"Retrieving user with ID: {user_id}")
     return {"user": get_user_by_id(user_id)}
 
-@app.post("/users_create/")
+@app.post("/users_create")
 def create_user(user: UserDTO, address: AddressDTO = None):
     """
     Endpoint to create a new user and their address (address is optional).
@@ -179,7 +179,7 @@ def authenticate_user(email: str, password: str):
     logger.info(f"Validating user: {email}")
     return {"success": authenticate_user_password(email, password)}
 
-@app.post("/add_user_address/")
+@app.post("/add_user_address")
 def add_user_address_endpoint(
     address: AddressDTO,
     user=Depends(manager)
