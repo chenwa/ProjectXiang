@@ -29,7 +29,7 @@ def get_user_by_id(user_id: int):
         session.close()
 
 
-def add_user(user: UserDTO, address: AddressDTO = None):
+def add_user(user: UserDTO):
     """
     Creates a new user in the database with an encrypted password.
     Optionally adds address to the newly created user if provided.
@@ -49,6 +49,7 @@ def add_user(user: UserDTO, address: AddressDTO = None):
             first_name=user.first_name,
             last_name=user.last_name,
             email=user.email,
+            org=user.org,
             encrypted_password=hashed_password.decode('utf-8')
         )
 
@@ -61,22 +62,6 @@ def add_user(user: UserDTO, address: AddressDTO = None):
         return None
     finally:
         session.close()
-
-    user_id = get_user_id_by_email(user.email)
-    if new_user and address is not None:
-        address_result = add_user_address(
-            user_id,
-            address.street,
-            address.city,
-            address.state,
-            address.zip_code,
-            address.country
-        )
-        logger.info(f"Address add result: {address_result}")
-    elif new_user:
-        logger.info("No address provided, user created without address.")
-    else:
-        logger.error("Failed to locate new user to add address.")
 
     return new_user
 
@@ -124,7 +109,7 @@ def add_user_address(user_id: int, street: str, city: str, state: str, zip_code:
         session.close()
 
 
-def authenticate_user_password(email: str, password: str):
+def authenticate_user_password(email: str, password: str, org: str):
     """
     Authenticates a user by checking if the provided password matches
     the stored hashed password for the given email.
@@ -138,9 +123,9 @@ def authenticate_user_password(email: str, password: str):
     """
     session = Session()
     try:
-        user = session.query(User).filter_by(email=email).first()
+        user = session.query(User).filter_by(email=email).filter_by(org=org).first()
         if not user:
-            logger.info(f"No user found with email {email}.")
+            logger.info(f"No user found with email {email} for {org}.")
             return False
 
         stored_hashed_password = user.encrypted_password
@@ -157,26 +142,27 @@ def authenticate_user_password(email: str, password: str):
         session.close()
 
 
-def delete_user_by_email(email: str):
+def delete_user_by_email(email: str, org: str):
     """
-    Deletes a user from the database based on their email.
+    Deletes a user from the database based on their email for org.
 
     Parameters:
         email (str): The email of the user to delete.
+        org (str): The org of the user to delete.
 
     Returns:
         bool: True if the user was deleted, False if no user was found.
     """
     session = Session()
     try:
-        user = session.query(User).filter_by(email=email).first()
+        user = session.query(User).filter_by(email=email).filter_by(org=org).first()
         if user:
             session.delete(user)
             session.commit()
             logger.info(f"User with email {email} has been deleted.")
             return True
         else:
-            logger.info(f"No user found with email {email}.")
+            logger.info(f"No user found with email {email} for {org}.")
             return False
     except Exception as e:
         session.rollback()
@@ -186,12 +172,13 @@ def delete_user_by_email(email: str):
         session.close()
 
 
-def update_user_name_by_email(email: str, new_name: str):
+def update_user_name_by_email(email: str, new_name: str, org: str = None):
     """
-    Updates a user's name in the database based on their email.
+    Updates a user's name in the database based on their email and org.
 
     Parameters:
         email (str): The email of the user to update.
+        org (str): The organization of the user to update.
         new_name (str): The new name to assign.
 
     Returns:
@@ -199,14 +186,14 @@ def update_user_name_by_email(email: str, new_name: str):
     """
     session = Session()
     try:
-        user = session.query(User).filter_by(email=email).first()
+        user = session.query(User).filter_by(email=email).filter_by(org=org).first()
         if user:
             user.first_name = new_name
             session.commit()
             logger.info(f"User with email {email} has been updated to name {new_name}.")
             return True
         else:
-            logger.info(f"No user found with email {email}.")
+            logger.info(f"No user found with email {email} for {org}.")
             return False
     except Exception as e:
         session.rollback()
@@ -216,19 +203,19 @@ def update_user_name_by_email(email: str, new_name: str):
         session.close()
 
 
-def search_users_by_name(query: str):
+def search_users_by_email(query: str, org: str):
     """
     Searches for users whose names include the given query (case-insensitive).
 
     Parameters:
-        query (str): The substring to search for in the user's name.
+        query (str): The substring to search for in the user's name for the organization.
 
     Returns:
         list[User]: A list of matching User objects.
     """
     session = Session()
     try:
-        matching_users = session.query(User).filter(User.first_name.ilike(f"%{query}%")).all()
+        matching_users = session.query(User).filter(User.email.ilike(f"%{query}%"), User.org == org).all()
 
         if matching_users:
             logger.info(f"Found {len(matching_users)} users matching '{query}':")
@@ -245,29 +232,32 @@ def search_users_by_name(query: str):
         session.close()
 
 
-def return_user_by_email(email: str):
+def return_user_by_email(email: str, org: str = None):
     """
-    Retrieves a user from the database by their email and returns a UserDTO.
+    Retrieves a user from the database by their email for organization and returns a UserDTO.
 
     Parameters:
         email (str): The email of the user to retrieve.
+        org (str): The organization of the user to retrieve.
 
     Returns:
         UserDTO: A UserDTO object if the user is found, otherwise None.
     """
     session = Session()
     try:
-        user = session.query(User).filter_by(email=email).first()
+        user = session.query(User).filter_by(email=email).filter_by(org=org).first()
         if user:
-            logger.info(f"User found with email {email}.")
+            logger.info(f"User found with email {email} for {org}.")
             return UserDTO(
+                id=user.id,
                 first_name=user.first_name,
                 last_name=user.last_name,
                 email=user.email,
+                org=user.org,
                 password="protected"
             )
         else:
-            logger.info(f"No user found with email {email}.")
+            logger.info(f"No user found with email {email} for {org}.")
             return None
     except Exception as e:
         logger.error(f"Error retrieving user by email: {e}")
@@ -276,21 +266,22 @@ def return_user_by_email(email: str):
         session.close()
 
 
-def get_user_id_by_email(email: str):
+def get_user_id_by_email(email: str, org: str = None):
     """
-    Retrieves the user ID from the database based on their email.
+    Retrieves the user ID from the database based on their email and org.
 
     Parameters:
         email (str): The email of the user.
+        org (str): The organization of the user.
 
     Returns:
         int: The user ID if found, otherwise None.
     """
     session = Session()
     try:
-        user = session.query(User).filter_by(email=email).first()
+        user = session.query(User).filter_by(email=email).filter_by(org=org).first()
         if user:
-            logger.info(f"User ID {user.id} found for email {email}.")
+            logger.info(f"User ID {user.id} found for email {email} and {org}.")
             return user.id
         else:
             logger.info(f"No user found with email {email}.")

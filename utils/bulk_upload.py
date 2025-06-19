@@ -28,7 +28,7 @@ def bulk_upload_users(file: UploadFile = File(...)):
         df = pd.read_csv(file.file)
 
         # Validate required columns
-        required_columns = ["first_name", "last_name", "email", "password"]
+        required_columns = ["first_name", "last_name", "email", "password", "org"]
         if not all(column in df.columns for column in required_columns):
             raise HTTPException(status_code=400, detail=f"CSV file must contain the following columns: {', '.join(required_columns)}")
 
@@ -42,21 +42,13 @@ def bulk_upload_users(file: UploadFile = File(...)):
                     first_name=row["first_name"],
                     last_name=row["last_name"],
                     email=row["email"],
+                    org=row["org"],
                     password=row["password"]
                 )
 
-                # Create a dummy address for the user
-                address_dto = AddressDTO(
-                    user_id=1,
-                    street="123 Default St",
-                    city="Default City",
-                    state="Default State",
-                    zip_code="00000",
-                    country="Default Country"
-                )
 
                 # Add the user to the database
-                new_user = add_user(user_dto, address_dto)
+                new_user = add_user(user_dto)
                 if new_user:
                     created_users.append(row["email"])
                 else:
