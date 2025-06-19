@@ -26,6 +26,7 @@ class User(Base):
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
     email = Column(String(100), unique=True)
+    org = Column(String(100), unique=True)
     encrypted_password = Column(String(255))
     created_at = Column(DateTime, default=func.now(), nullable=False)  
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
@@ -48,7 +49,6 @@ class Address(Base):
     # Establish bidirectional relationship with User
     user = relationship("User", back_populates="addresses")
 
+
 # Create a session factory
 Session = sessionmaker(bind=engine)
-
-

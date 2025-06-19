@@ -73,7 +73,9 @@ Replace `<your_mysql_password>` with your actual MySQL root password.
 ## (Optional) Local Development Without Docker
 
 1. Install Python3
-
+   ```
+   brew install python
+   ```
 2. Install FastAPI, Uvicorn, and other dependencies:  
    ```bash
    pip install -r requirements.txt
