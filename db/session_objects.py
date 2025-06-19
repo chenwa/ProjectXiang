@@ -48,7 +48,6 @@ class Address(Base):
     # Establish bidirectional relationship with User
     user = relationship("User", back_populates="addresses")
 
+
 # Create a session factory
 Session = sessionmaker(bind=engine)
-
-
