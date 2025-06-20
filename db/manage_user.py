@@ -7,7 +7,7 @@ from dtos.address_dto import AddressDTO
 from dtos.user_dto import UserDTO
 
 setup_logging()
-logger = logging.getLogger('my_module')
+logger = logging.getLogger('manage_user')
 
 
 @rate_limiter(max_requests=1, time_window=60)

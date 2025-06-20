@@ -7,7 +7,8 @@ from utils.logger import setup_logging
 from utils.bulk_upload import router
 from dtos.user_dto import UserDTO
 from dtos.address_dto import AddressDTO
-from manage_user import (
+from dtos.openai_dto import OpenAiDTO
+from db.manage_user import (
     add_user,
     add_user_address,
     authenticate_user_password,
@@ -20,6 +21,16 @@ from manage_user import (
 )
 from db.session_objects import Base, engine
 from fastapi.middleware.cors import CORSMiddleware
+from utils.openai_api import query_ai
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+# Secret key for session management
+LOGIN_SECRET = os.getenv("LOGIN_SECRET")
+if not LOGIN_SECRET:
+    raise RuntimeError("LOGIN_SECRET environment variable is not set. Please define it in your .env file.")
 
 # Initialize the database schema
 Base.metadata.create_all(bind=engine)
@@ -27,9 +38,7 @@ Base.metadata.create_all(bind=engine)
 setup_logging()
 logger = logging.getLogger('px')
 
-# Secret key for session management
-SECRET = "this_secret_needs_to_be_in_.env_file"
-manager = LoginManager(SECRET, token_url="/login")
+manager = LoginManager(LOGIN_SECRET, token_url="/login")
 
 @manager.user_loader()
 def load_user(email: str, org: str):
@@ -91,7 +100,7 @@ def login(data: OAuth2PasswordRequestForm = Depends(), org: str = Form(...)):
     # Create the token with the user's email as the subject
     access_token = manager.create_access_token(data={"sub": email})
     logger.info(f"Generated access_token for {email}: {access_token}")  # Log the access token
-    
+
     return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/users/{user_id}")
@@ -246,3 +255,15 @@ def get_user_by_email(email: str, org: str):
         }
     else:
         logger.warning(f"No user found with email: {email} for organization: {org}")
+
+
+@app.post("/query_ai")
+async def test_open_ai(openai_dto: OpenAiDTO):
+    """
+    Endpoint to query OpenAI's API with a prompt and text.
+    Parameters:
+        openai_dto (OpenAiDTO): The OpenAI DTO containing the prompt, text, and temperature.
+    Returns:
+        dict: The AI's response.
+    """
+    return await query_ai(openai_dto.prompt, openai_dto.text, openai_dto.temperature, openai_dto.max_tokens)

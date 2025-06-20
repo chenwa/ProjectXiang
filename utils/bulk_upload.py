@@ -1,11 +1,10 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 import pandas as pd
-from dtos.address_dto import AddressDTO
 from dtos.user_dto import UserDTO
-from manage_user import add_user
+from db.manage_user import add_user
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('bulk_upload')
 
 router = APIRouter()
 

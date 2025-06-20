@@ -1,10 +1,8 @@
 import time
 import logging
-from utils.logger import setup_logging
 from functools import wraps
 
-setup_logging()
-logger = logging.getLogger('my_module')
+logger = logging.getLogger('limiter')
 
 rate_limit_store = {}
 
