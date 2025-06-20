@@ -129,10 +129,11 @@ docker push public.ecr.aws/z3g8u5u2/iwarren/projectxiang:latest
 ### 5. Update the ECS Service
 
 - Go to AWS Console → ECS → Clusters → [Your Cluster] → Services → [Your Service].
-- Click **Update**.
-- In the “Task Definition” section, select the latest revision (if you created a new one).
-- Click **Next** until the end, then **Update Service**.
-- This will force ECS to stop the old task and start a new one with the new image.
+- Select your service and click **Update**.
+- **Important**: Ensure your task definition is configured to use the correct image tag (e.g., `public.ecr.aws/z3g8u5u2/iwarren/projectxiang:latest`). If you haven't changed the task definition itself (like environment variables, CPU, or memory), you typically don't need to select a new revision.
+- Check the box for **Force new deployment**. This tells ECS to pull the latest version of your Docker image from ECR and deploy it, even if the task definition revision hasn't changed.
+- Review the settings and click **Update Service** (or proceed through the "Next" steps if you are on the new UI, then click "Update").
+- This process ensures that ECS stops the old tasks and starts new ones with the updated image, while keeping your public-facing endpoints (like those from a Load Balancer) unchanged.
 
 ### 6. Wait for the New Task to Start
 
