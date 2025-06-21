@@ -146,6 +146,18 @@ docker push public.ecr.aws/z3g8u5u2/iwarren/projectxiang:latest
 
 ---
 
+## Connecting to the Amazon RDS MySQL Database
+
+To connect directly to your Amazon RDS MySQL instance from your local machine, use the following command (replace the password prompt with your actual admin password):
+
+```sh
+/usr/local/opt/mysql@8.0/bin/mysql -h project-xiang.c96qciiskv1h.us-east-2.rds.amazonaws.com -u admin -p
+```
+
+This will prompt you for the password for the `admin` user. Once connected, you can run SQL queries to view or modify your RDS database contents.
+
+---
+
 ## Notes
 
 - The MySQL database data is persisted in a Docker volume (`db_data`).

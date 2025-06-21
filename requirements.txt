@@ -2,6 +2,7 @@ annotated-types==0.7.0
 anyio==4.8.0
 bcrypt==4.3.0
 boto==2.49.0
+certifi==2025.6.15
 cffi==1.17.1
 click==8.1.8
 cryptography==44.0.2
@@ -11,7 +12,9 @@ fabric==3.2.2
 fastapi==0.115.8
 fastapi-login==1.10.3
 greenlet==3.2.0
-h11==0.14.0
+h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
 idna==3.10
 invoke==2.2.0
 numpy==2.2.5
