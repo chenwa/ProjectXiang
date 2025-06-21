@@ -12,24 +12,24 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise RuntimeError("OPENAI_API_KEY environment variable is not set. Please define it in your .env file.")
 
-async def query_ai(prompt: str, text: str, temperature: float, max_tokens: int):
-    logger.info(f"Receiving prompt: {prompt} and text: {text}, temperature: {temperature}, max_tokens: {max_tokens}")
+async def call_openai_api(model: str, prompt: str, text: str, temperature: float, max_tokens: int):
+    logger.info(f"Receiving prompt: {prompt} and text: {text}, model: {model}, temperature: {temperature}, max_tokens: {max_tokens}")
     url = "https://api.openai.com/v1/chat/completions"
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {OPENAI_API_KEY}"
     }
     data = {
-        "model": "gpt-4o",
+        "model": model,
         "messages": [
             {"role": "system", "content": "Assistant is a helpful AI."},
-            {"role": "user", "content": f"{prompt} based on the following text: {text}"}
+            {"role": "user", "content": f"{prompt} : {text}"}
         ],
         "temperature": temperature,
         "max_tokens": max_tokens  # token for no user (no login), regular user and premium user can adjust this
     }
     try:
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        async with httpx.AsyncClient(timeout=40.0) as client:
             response = await client.post(url, headers=headers, json=data)
             response.raise_for_status()
             result = response.json()

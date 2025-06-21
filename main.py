@@ -21,7 +21,7 @@ from db.manage_user import (
 )
 from db.session_objects import Base, engine
 from fastapi.middleware.cors import CORSMiddleware
-from utils.openai_api import query_ai
+from utils.openai_api import call_openai_api
 from dotenv import load_dotenv
 import os
 
@@ -257,8 +257,8 @@ def get_user_by_email(email: str, org: str):
         logger.warning(f"No user found with email: {email} for organization: {org}")
 
 
-@app.post("/query_ai")
-async def test_open_ai(openai_dto: OpenAiDTO):
+@app.post("/query_openai_api")
+async def query_openai_api(openai_dto: OpenAiDTO):
     """
     Endpoint to query OpenAI's API with a prompt and text.
     Parameters:
@@ -266,4 +266,4 @@ async def test_open_ai(openai_dto: OpenAiDTO):
     Returns:
         dict: The AI's response.
     """
-    return await query_ai(openai_dto.prompt, openai_dto.text, openai_dto.temperature, openai_dto.max_tokens)
+    return await call_openai_api(openai_dto.model, openai_dto.prompt, openai_dto.text, openai_dto.temperature, openai_dto.max_tokens)
